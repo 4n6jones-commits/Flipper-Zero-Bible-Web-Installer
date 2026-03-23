@@ -1,0 +1,24 @@
+name: Build Flipper Bible FAP
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ufbt
+        run: pip install ufbt
+      - name: Build FAP
+        run: |
+          cd app
+          ufbt
+      - name: Upload bible_app.fap
+        uses: actions/upload-artifact@v4
+        with:
+          name: bible_app.fap
+          path: app/dist/bible_app.fap
+          if-no-files-found: error
